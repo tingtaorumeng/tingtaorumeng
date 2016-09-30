@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			li{list-style: none;}
+			#box{
+				width: 500px;
+				height: 500px;
+				border: 1px solid black;
+				margin: 100px auto;
+				position: relative;
+				perspective: 800px;
+			}
+			#list{
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: 300px;
+				height: 300px;
+				margin-left: -150px;
+				margin-top: -150px;
+				transform-style: preserve-3d;
+				transform-origin: center center -150px;
+				transform:scale(0.2) rotateX(-30deg) rotateY(30deg);
+				transition: 1s;
+				
+			}
+			#list li{
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				font-size: 100px;
+				text-align: center;
+				line-height: 300px;
+				background: red;
+				/*opacity: 0.5;*/
+				backface-visibility: hidden ;
+			}
+			#list li img{
+				width: 300px;
+				height: 300px;
+			}
+			#list li:nth-child(2){
+				
+				left: -300px;
+				background: blue;
+				transform: rotateY(-90deg);
+				transform-origin: right;
+			}
+			#list li:nth-child(3){
+				left: 300px;
+				background: green;
+				transform: rotateY(90deg);
+				transform-origin: left;
+			}
+			#list li:nth-child(5){
+				top: -300px;
+				background: yellow;
+				transform: rotateX(90deg);
+				transform-origin: bottom;
+			}
+			#list li:nth-child(6){
+				top: 300px;
+				background: deeppink;
+				transform: rotateX(-90deg);
+				transform-origin: top;
+			}
+			#list li:nth-child(4){
+				background: palegreen;
+				transform: rotateY(180deg) translateZ(300px);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<ul id="list">
+				<li><img src="img/cubeImg1.png"/></li>
+				<li><img src="img/cubeImg2.png"/></li>
+				<li><img src="img/cubeImg3.png"/></li>
+				<li><img src="img/cubeImg4.png"/></li>
+				<li><img src="img/cubeImg5.png"/></li>
+				<li><img src="img/cubeImg6.png"/></li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			var box = document.getElementById("box");
+			var list = document.getElementById("list");
+			
+			window.onload = function(){
+				list.style.transform = "scale(1) rotateX(-30deg) rotateY(30deg)";
+				
+			}
+			//设置一个初始的角度观看。
+			var startX = 30;
+			var changeX = 0;
+			var startY = -30;
+			var changeY = 0;
+			list.onmousedown = function(e){
+				var x = e.clientX;
+				var y = e.clientY;
+				//当鼠标移入的时候 
+				document.onmousemove = function(e){
+					 changeX =( e.clientX - x)*0.2;
+					 changeY =( y-e.clientY )*0.2;
+					list.style.transform = "rotateX("+(changeY+startY)+"deg) rotateY("+(changeX + startX)+"deg)";
+					return false;
+				}
+				//当鼠标移开的时候
+				document.onmouseup = function(){
+					startX += changeX;
+					startY += changeY;
+					document.onmousemove = null;
+					document.onmouseup = null;
+				}
+				
+			}
+		</script>
+	</body>
+</html>
